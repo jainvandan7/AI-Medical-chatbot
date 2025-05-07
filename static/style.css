@@ -1,0 +1,223 @@
+/* ===== Base Styles ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ===== Header Section ===== */
+.header {
+    background-color: #2b6cb0;
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.header p {
+    margin: 8px 0 0;
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* ===== Tagline Section ===== */
+.tagline {
+    background-color: #4299e1;
+    color: white;
+    padding: 18px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+/* ===== Features Section ===== */
+.features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 40px 20px;
+    background-color: #ebf8ff;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    width: 250px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 36px;
+    margin-bottom: 15px;
+    color: #2b6cb0;
+}
+
+.feature-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #2d3748;
+}
+
+.feature-card p {
+    color: #4a5568;
+    font-size: 15px;
+}
+
+/* ===== Chat Container ===== */
+.chat-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: #2b6cb0;
+    color: white;
+    padding: 18px 25px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.chat-messages {
+    padding: 25px;
+    height: 400px;
+    overflow-y: auto;
+    background-color: #f8fafc;
+}
+
+/* ===== Message Styles ===== */
+.message {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.bot-message {
+    background-color: #ebf8ff;
+    padding: 15px 20px;
+    border-radius: 18px 18px 18px 0;
+    max-width: 75%;
+    display: inline-block;
+    color: #2d3748;
+    font-size: 16px;
+}
+
+/* ===== Input Area ===== */
+.input-area {
+    display: flex;
+    padding: 20px;
+    border-top: 1px solid #e2e8f0;
+    background-color: white;
+}
+
+.input-area input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 1px solid #cbd5e0;
+    border-radius: 30px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.input-area input:focus {
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.input-area button {
+    background-color: #2b6cb0;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 0 25px;
+    margin-left: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.input-area button:hover {
+    background-color: #2c5282;
+    transform: translateY(-1px);
+}
+
+/* ===== Disclaimer ===== */
+.disclaimer {
+    text-align: center;
+    padding: 20px;
+    color: #718096;
+    font-size: 14px;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .features {
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 15px;
+    }
+    
+    .feature-card {
+        width: 100%;
+        max-width: 350px;
+    }
+    
+    .chat-container {
+        margin: 30px 15px;
+    }
+    
+    .header h1 {
+        font-size: 28px;
+    }
+    
+    .header p {
+        font-size: 16px;
+    }
+    
+    .tagline {
+        font-size: 18px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .input-area {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .input-area button {
+        margin-left: 0;
+        padding: 12px;
+    }
+    
+    .bot-message {
+        max-width: 85%;
+        font-size: 15px;
+    }
+}

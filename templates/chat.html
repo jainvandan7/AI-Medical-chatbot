@@ -1,0 +1,315 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Insight - AI Medical Assistant</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .header {
+            background-color: #2b6cb0;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            margin: 8px 0 0;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .tagline {
+            background-color: #4299e1;
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 300;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 40px 20px;
+            background-color: #ebf8ff;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            width: 250px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #2b6cb0;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .chat-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background-color: #2b6cb0;
+            color: white;
+            padding: 18px 25px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .chat-messages {
+            padding: 25px;
+            height: 400px;
+            overflow-y: auto;
+            background-color: #f8fafc;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .bot-message {
+            background-color: #ebf8ff;
+            padding: 15px 20px;
+            border-radius: 18px 18px 18px 0;
+            max-width: 75%;
+            display: inline-block;
+            color: #2d3748;
+            font-size: 16px;
+        }
+
+        .typing-indicator {
+            background-color: #ebf8ff;
+            padding: 15px 20px;
+            border-radius: 18px 18px 18px 0;
+            max-width: 75%;
+            display: inline-block;
+            color: #2d3748;
+            font-size: 16px;
+            opacity: 0.7;
+            font-style: italic;
+        }
+        
+        .input-area {
+            display: flex;
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            background-color: white;
+        }
+        
+        .input-area input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 1px solid #cbd5e0;
+            border-radius: 30px;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        
+        .input-area input:focus {
+            border-color: #4299e1;
+        }
+        
+        .input-area button {
+            background-color: #2b6cb0;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 0 25px;
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .input-area button:hover {
+            background-color: #2c5282;
+        }
+        
+        .disclaimer {
+            text-align: center;
+            padding: 20px;
+            color: #718096;
+            font-size: 14px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const inputField = document.querySelector(".input-area input");
+        const sendButton = document.querySelector(".input-area button");
+        const chatMessages = document.querySelector(".chat-messages");
+
+        function showTypingIndicator() {
+            const typingIndicator = document.createElement("div");
+            typingIndicator.className = "message bot-message typing-indicator";
+            typingIndicator.innerHTML = `<strong>Dr. Insight:</strong> ...`;
+            chatMessages.appendChild(typingIndicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingIndicator = document.querySelector(".typing-indicator");
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function sendMessage() {
+            const userMessage = inputField.value.trim();
+            if (userMessage === "") return; // Prevent empty messages
+
+            // Add user message to chat
+            const userChat = document.createElement("div");
+            userChat.className = "message user-message";
+            userChat.innerHTML = `<strong>You:</strong> ${userMessage}`;
+            chatMessages.appendChild(userChat);
+
+            // Clear input field
+            inputField.value = "";
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Send message to Flask backend
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userMessage }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botResponse = data.response || "I'm not sure how to respond.";
+
+                // Remove typing indicator
+                removeTypingIndicator();
+
+                // Add bot response to chat
+                const botChat = document.createElement("div");
+                botChat.className = "message bot-message";
+                botChat.innerHTML = `<strong>Dr. Insight:</strong> ${botResponse}`;
+                chatMessages.appendChild(botChat);
+
+                // Auto-scroll to latest message
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+
+                // Remove typing indicator
+                removeTypingIndicator();
+
+                // Show error message in chat
+                const errorChat = document.createElement("div");
+                errorChat.className = "message bot-message";
+                errorChat.style.color = "red";
+                errorChat.innerHTML = "⚠️ Error connecting to the server. Please try again.";
+                chatMessages.appendChild(errorChat);
+            });
+        }
+
+        // Send message on button click
+        sendButton.addEventListener("click", sendMessage);
+
+        // Send message on Enter key
+        inputField.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    });
+</script>
+<body>
+    <div class="header">
+        <h1>Dr. Insight</h1>
+        <p>AI-Powered Medical Assistant</p>
+    </div>
+
+    <div class="tagline">
+        Your 24/7 Personal Health Companion
+    </div>
+
+    <div class="features">
+        <div class="feature-card">
+            <div class="feature-icon">⚕️</div>
+            <div class="feature-title">Symptom Analysis</div>
+            <p>Get instant insights about your symptoms and possible conditions</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🕒</div>
+            <div class="feature-title">24/7 Availability</div>
+            <p>Always available when you need medical information</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <div class="feature-title">Private & Secure</div>
+            <p>Your health data remains confidential and protected</p>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            Dr. Insight Chat
+        </div>
+
+        <div class="chat-messages">
+            <div class="message bot-message">
+                Hello! I'm Dr. Insight, your AI medical assistant. I can help with symptom analysis, medication information, and more. How can I assist you today?
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" placeholder="Type your message..." />
+            <button>Send</button>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        <p>Disclaimer: This AI assistant provides information for educational purposes and is not a substitute for professional medical advice.</p>
+    </div>
+</body>
+</html>
